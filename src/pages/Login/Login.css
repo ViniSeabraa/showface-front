@@ -1,0 +1,16 @@
+@import '../../variables.css';
+
+.fullscreen {
+    width: 100vw;
+    height: 100vh; 
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    margin: 0;
+  }
+
+.login-container {
+  border: 2px solid var(--showface-yellow);
+  border-radius: 8px; 
+}
