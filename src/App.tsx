@@ -1,10 +1,15 @@
-function App() {
+import { Outlet } from "react-router-dom";
+import { Toaster } from "./components/ui/toaster";
 
+function App() {
   return (
     <>
-      <div>Landing Page</div>
+      <Toaster />
+      <main>
+        <Outlet /> 
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
