@@ -18,6 +18,8 @@ function Login() {
     confirmPassword: false,
   });
 
+  const isLogin = window.location.href.includes('login');
+
   const { toast } = useToast();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,27 +83,31 @@ function Login() {
 
   return (
     <div className="fullscreen center">
-      <div className='mt-32 logo'>
+      <div className='mt-24 logo'>
         <img src={showFaceLogo} alt="ShowFace logo" style={{ width: "300px", height: "auto" }} />
       </div>
-      <div className="login-container mt-12 mb-20">
-        <div className='center'>        
-          <h1>Cadastro</h1>      
+      <div className="login-container mt-12">
+        <div className='center mt-6'>        
+          <h1 className='title'>{isLogin ? 'Log-in':'Cadastro'}</h1>      
         </div>
-        <form className='px-4' noValidate onSubmit={handleSubmit}>
-          <label htmlFor="name">Nome:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Digite seu nome"
-            required
-            className={errors.name ? 'input-error' : ''}
-          />
+        <form className='px-4 mt-6' noValidate onSubmit={handleSubmit}>
+        {!isLogin && (
+          <>
+            <label htmlFor="name">Nome:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Digite seu nome"
+              required
+              className={errors.name ? 'input-error' : ''}
+            />
+          </>
+        )}
 
-          <label htmlFor="email">E-mail:</label>
+          <label className='mt-6' htmlFor="email">E-mail:</label>
           <input
             type="email"
             id="email"
@@ -113,7 +119,7 @@ function Login() {
             className={errors.email ? 'input-error' : ''}
           />
 
-          <label htmlFor="password">Senha:</label>
+          <label className='mt-6' htmlFor="password">Senha:</label>
           <input
             type="password"
             id="password"
@@ -125,19 +131,23 @@ function Login() {
             className={errors.password ? 'input-error' : ''}
           />
 
-          <label htmlFor="confirmPassword">Confirmar Senha:</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            placeholder="Confirme sua senha"
-            required
-            className={errors.confirmPassword ? 'input-error' : ''}
-          />
+          {!isLogin && (
+            <>
+            <label className='mt-6' htmlFor="confirmPassword">Confirmar Senha:</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirme sua senha"
+              required
+              className={errors.confirmPassword ? 'input-error' : ''}
+            />
+            </>
+          )}
 
-          <button type="submit">Cadastrar</button>
+          <button className='button mt-8 mb-8' type="submit">{isLogin ? 'Log-in':'Cadastrar'}</button>
         </form>
       </div>
     </div>
