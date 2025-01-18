@@ -2,6 +2,8 @@ import './Login.css';
 import showFaceLogo from '../../assets/showfaceLogoText.svg';
 import { useState } from 'react';
 import { useToast } from "../../components/hooks/use-toast";
+import { loginService, registerService } from '../../services/authService';
+import { useAuth } from '../../utils/authContext';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -17,6 +19,8 @@ function Login() {
     password: false,
     confirmPassword: false,
   });
+
+  const { login } = useAuth();
 
   const isLogin = window.location.href.includes('login');
 
@@ -37,10 +41,10 @@ function Login() {
 
   const validateFields = () => {
     const newErrors = {
-      name: !formData.name.trim(),
+      name: !isLogin && !formData.name.trim(),
       email: !formData.email.trim(),
       password: !formData.password.trim(),
-      confirmPassword: !formData.confirmPassword.trim(),
+      confirmPassword: !isLogin && !formData.confirmPassword.trim(),
     };
 
     setErrors(newErrors);
@@ -48,7 +52,7 @@ function Login() {
     return Object.values(newErrors).some((error) => error);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (validateFields()) {
@@ -60,7 +64,7 @@ function Login() {
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (!isLogin && formData.password !== formData.confirmPassword) {
       toast({
         variant: "destructive",
         title: "Erro de Validação",
@@ -74,11 +78,32 @@ function Login() {
       return;
     }
 
-    toast({
-      variant: "default",
-      title: "Cadastro Bem-Sucedido",
-      description: `Bem-vindo, ${formData.name}!`,
-    });
+    try {
+      if (isLogin) {
+        const data = await loginService({ email: formData.email, password: formData.password });
+        login(data.user, data.token);
+        toast({
+          variant: "default",
+          title: "Login Bem-Sucedido",
+          description: "Bem-vindo de volta!",
+        });
+      } else {
+        const data = await registerService({ name: formData.name, email: formData.email, password: formData.password });
+        login(data.user , data.token);
+        toast({
+          variant: "default",
+          title: "Cadastro Bem-Sucedido",
+          description: `Bem-vindo, ${formData.name}!`,
+        });
+      }
+      window.location.href = "/"; //colocar pra onde vai após login/cadastro
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro",
+        description: error.response?.data?.message || "Ocorreu um erro.",
+      });
+    }
   };
 
   return (
