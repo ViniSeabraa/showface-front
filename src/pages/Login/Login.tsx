@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useToast } from "../../components/hooks/use-toast";
 import { loginService, registerService } from '../../services/authService';
 import { useAuth } from '../../utils/authContext';
+import { AxiosError } from 'axios';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -98,20 +99,36 @@ function Login() {
       }
       window.location.href = "/"; //colocar pra onde vai após login/cadastro
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Erro",
-        description: error.response?.data?.message || "Ocorreu um erro.",
-      });
+      if (error instanceof AxiosError && error.response) {
+        if (error.response.status === 400) {
+          toast({
+            variant: "destructive",
+            title: "Erro de Cadastro",
+            description: "O e-mail já está em uso. Por favor, utilize outro.",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Erro",
+            description: error.response.data?.message || "Ocorreu um erro.",
+          });
+        }
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Erro",
+          description: "Ocorreu um erro inesperado.",
+        });
+      }
     }
   };
 
   return (
     <div className="fullscreen center">
-      <div className='mt-24 logo'>
+      <div className='mt-16 logo'>
         <img src={showFaceLogo} alt="ShowFace logo" style={{ width: "300px", height: "auto" }} />
       </div>
-      <div className="login-container mt-12">
+      <div className="login-container center mt-12">
         <div className='center mt-6'>        
           <h1 className='title'>{isLogin ? 'Log-in':'Cadastro'}</h1>      
         </div>
@@ -172,8 +189,9 @@ function Login() {
             </>
           )}
 
-          <button className='button mt-8 mb-8' type="submit">{isLogin ? 'Log-in':'Cadastrar'}</button>
+          <button className='button-confirm mt-8' type="submit">{isLogin ? 'Log-in':'Cadastrar'}</button>
         </form>
+        <button className='button-redirect mt-4 mb-4' onClick={() => window.location.href = isLogin ? "/cadastro" : "/login"}>{isLogin? "Ainda não tenho uma conta" : "Já tenho uma conta"}</button>
       </div>
     </div>
   );
