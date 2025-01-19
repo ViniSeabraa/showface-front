@@ -1,4 +1,4 @@
-import { AuthContextType } from '../interfaces/authContextType';
+import { AuthContextType } from '../interfaces/AuthContextType';
 import { User } from '../interfaces/user';
 import { FC, ReactNode, createContext, useContext } from 'react';
 
