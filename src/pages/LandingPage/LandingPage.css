@@ -1,0 +1,31 @@
+@import '../../variables.css';
+
+.first-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.first-section-text {
+  flex: 1;
+  max-width: 50%;
+  padding-left: 100px;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.first-section-text span {
+  color: var(--showface-yellow);
+  text-decoration: underline;
+}
+
+.first-section-image {
+  flex: 1;
+  max-width: 50%;
+  text-align: center;
+}
+
+.first-section-image img {
+  width: 100%;
+  height: auto;
+}
