@@ -2,7 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import Login from './pages/Login/Login.tsx'
+<<<<<<< HEAD
 import NewEvent from './pages/NewEvent/newEvent.tsx'
+=======
+import LandingPage from './pages/LandingPage/LandingPage.tsx'
+>>>>>>> 7d78031c9e81e649ff7f3cd28fedbfbed2dfe656
 import './index.css'
 import EditEvent from './pages/EditEvent/EditEvent.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -13,7 +17,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { path: "login", element: <Login /> },
+      { path: "/", element: <LandingPage/> },
+      { path: "login", element: <Login/> },
       { path: "cadastro", element: <Login/> },
       { path: "newEvent", element: <NewEvent/> },
       { path: "editEvent", element: <EditEvent/> },
