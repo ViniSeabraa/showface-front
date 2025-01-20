@@ -125,7 +125,7 @@ function Login() {
 
   return (
     <div className="fullscreen center">
-      <div className='mt-16 logo'>
+      <div className='logo'>
         <img src={showFaceLogo} alt="ShowFace logo" style={{ width: "300px", height: "auto" }}/>
       </div>
       <div className="login-container center mt-12">

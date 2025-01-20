@@ -1,4 +1,4 @@
-import showFaceLogoWhite from "../../assets/showfaceLogoTextWhite.svg";
+import showFaceLogoWhite from "../../assets/showFaceLogoTextWhite.svg";
 import "./footer.css"
 
 function Footer() {
