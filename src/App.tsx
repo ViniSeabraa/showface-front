@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Toaster } from "./components/ui/toaster";
 import Header  from "./components/header/header"
 import Footer  from "./components/footer/footer"
+import "./App.css"
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
     <div>
       <Toaster/>
       {withHeader && <Header />}
-      <div className={withHeader ? "pt-20" : ""}>
+      <div className={withHeader ? "padding-top" : ""}>
         <Outlet />
       </div>
       {withHeader && <Footer/>}
