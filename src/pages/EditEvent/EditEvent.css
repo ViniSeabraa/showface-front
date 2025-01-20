@@ -45,7 +45,7 @@ input {
   width: 50%;
 }
 
-.button {
+.button-confirm {
   height: 40px;
   left: 16px;
   right: 16px;
@@ -59,7 +59,7 @@ input {
   font-weight: 500;
 }
 
-.button:hover {
+.button-confirm:hover {
   background-color: #ff9b1dcc !important;
 }
 
