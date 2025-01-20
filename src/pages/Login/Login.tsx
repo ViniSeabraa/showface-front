@@ -97,7 +97,7 @@ function Login() {
           description: `Bem-vindo, ${formData.name}!`,
         });
       }
-      window.location.href = "/"; //colocar pra onde vai após login/cadastro
+      window.location.href = "/"; //colocar pra onde vai após login/cadastro, que seria "meus eventos"
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.status === 400) {
