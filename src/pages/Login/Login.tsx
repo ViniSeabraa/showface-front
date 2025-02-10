@@ -82,7 +82,7 @@ function Login() {
     try {
       if (isLogin) {
         const data = await loginService({ email: formData.email, password: formData.password });
-        login(data.token.user, data.token.token);
+        login(data.user, data.token);
         toast({
           variant: "default",
           title: "Login Bem-Sucedido",
