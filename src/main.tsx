@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import Login from './pages/Login/Login.tsx'
 import NewEvent from './pages/NewEvent/newEvent.tsx'
+import MyEvents from './pages/MyEvents/MyEvents.tsx'
 import LandingPage from './pages/LandingPage/LandingPage.tsx'
 import './index.css'
 import EditEvent from './pages/EditEvent/EditEvent.tsx'
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { path: "cadastro", element: <Login/> },
       { path: "newEvent", element: <NewEvent/> },
       { path: "editEvent", element: <EditEvent/> },
+      { path: "myEvents", element: <MyEvents/> }
     ],
   },
 ]);
