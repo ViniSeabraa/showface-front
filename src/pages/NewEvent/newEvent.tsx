@@ -5,13 +5,21 @@ import { useToast } from "../../components/hooks/use-toast";
 
 function NewEvent() {
   const [formData, setFormData] = useState({
-    eventName: '',
+
+    name: '',
     photographer: '',
     photographerLink: '',
+    /*
+    FROM WHERE SHOULD COME THOSE
+    ?!?!?!?!
+    */
+    userId: 1,
+    userName: "User1"
+    
   });
 
   const [errors, setErrors] = useState({
-    eventName: false,
+    name: false,
     photographer: false,
     photographerLink: false,
   });
@@ -33,7 +41,7 @@ function NewEvent() {
 
   const validateFields = () => {
     const newErrors = {
-      eventName: !formData.eventName.trim(),
+      name: !formData.name.trim(),
       photographer: !formData.photographer.trim(),
       photographerLink: !formData.photographerLink.trim(),
     };
@@ -43,7 +51,7 @@ function NewEvent() {
     return Object.values(newErrors).some((error) => error);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (validateFields()) {
@@ -72,16 +80,16 @@ function NewEvent() {
 
         <div className='square'>
           <form noValidate onSubmit={handleSubmit}>
-            <label htmlFor="eventName">Nome do evento:</label>
+            <label htmlFor="name">Nome do evento:</label>
             <input
               type="text"
-              id='eventName'
-              name='eventName'
-              value={formData.eventName}
+              id='name'
+              name='name'
+              value={formData.name}
               onChange={handleChange}
               placeholder="Meu evento"
               required
-              className={errors.eventName ? 'input-error' : ''}
+              className={errors.name ? 'input-error' : ''}
             />
 
             <label>Nome do fotógrafo:</label>
