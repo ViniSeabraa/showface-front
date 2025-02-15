@@ -2,20 +2,16 @@ import './newEvent.css';
 import AlbumUpload from '../../assets/AlbumUpload.svg';
 import { useState } from 'react';
 import { useToast } from "../../components/hooks/use-toast";
+import { createEventService } from '../../services/eventService';
+
 
 function NewEvent() {
   const [formData, setFormData] = useState({
-
     name: '',
     photographer: '',
     photographerLink: '',
-    /*
-    FROM WHERE SHOULD COME THOSE
-    ?!?!?!?!
-    */
     userId: 1,
-    userName: "User1"
-    
+    userName: ''
   });
 
   const [errors, setErrors] = useState({
@@ -23,6 +19,8 @@ function NewEvent() {
     photographer: false,
     photographerLink: false,
   });
+
+
 
   const { toast } = useToast();
 
@@ -62,6 +60,22 @@ function NewEvent() {
       });
       return;
     }
+
+    // retorno da função não é necessário por enquanto
+    const data = await createEventService({
+      name: formData.name,
+      photographer: formData.photographer, photographerLink: formData.photographerLink,
+      userId: formData.userId, userName: formData.userName,
+    });
+
+
+
+    toast({
+      variant: "default",
+      title: "Criação de evento Bem-Sucedida",
+      description: "Evento criado!",
+    });
+
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

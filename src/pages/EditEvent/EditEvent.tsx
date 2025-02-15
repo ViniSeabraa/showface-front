@@ -2,16 +2,19 @@ import './EditEvent.css'
 import editEvent from '../../assets/editEvent.svg';
 import { useState } from 'react';
 import { useToast } from "../../components/hooks/use-toast";
+import { editEventService } from '../../services/eventService';
+
 
 function NewEvent() {
   const [formData, setFormData] = useState({
-    eventName: '',
+    id: 1,
+    name: '',
     photographer: '',
     photographerLink: '',
   });
 
   const [errors, setErrors] = useState({
-    eventName: false,
+    name: false,
     photographer: false,
     photographerLink: false,
   });
@@ -33,7 +36,7 @@ function NewEvent() {
 
   const validateFields = () => {
     const newErrors = {
-      eventName: !formData.eventName.trim(),
+      name: !formData.name.trim(),
       photographer: !formData.photographer.trim(),
       photographerLink: !formData.photographerLink.trim(),
     };
@@ -43,7 +46,7 @@ function NewEvent() {
     return Object.values(newErrors).some((error) => error);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async(event: React.FormEvent) => {
     event.preventDefault();
 
     if (validateFields()) {
@@ -54,6 +57,21 @@ function NewEvent() {
       });
       return;
     }
+
+    // retorno da função não é necessário por enquanto
+    const data = await editEventService({
+      name: formData.name,
+      photographer: formData.photographer, photographerLink: formData.photographerLink,
+      id: formData.id
+    });
+
+
+
+    toast({
+      variant: "default",
+      title: "Edição de evento Bem-Sucedida",
+      description: "Evento editado!",
+    });
   };
 
   return (
@@ -66,16 +84,16 @@ function NewEvent() {
 
           <form noValidate onSubmit={handleSubmit}>
 
-          <label htmlFor="eventName">Nome do evento:</label>
+          <label htmlFor="name">Nome do evento:</label>
             <input
               type="text"
-              id='eventName'
-              name='eventName'
-              value={formData.eventName}
+              id='name'
+              name='name'
+              value={formData.name}
               onChange={handleChange}
               placeholder="Casamento de João e Maria"
               required
-              className={errors.eventName ? 'input-error' : ''}
+              className={errors.name ? 'input-error' : ''}
               />
 
           <label>Nome do fotógrafo:</label>
