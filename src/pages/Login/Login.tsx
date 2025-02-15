@@ -97,7 +97,7 @@ function Login() {
           description: `Bem-vindo, ${formData.name}!`,
         });
       }
-      window.location.href = "/"; //colocar pra onde vai após login/cadastro
+      window.location.href = "/"; //colocar pra onde vai após login/cadastro, que seria "meus eventos"
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.status === 400) {
@@ -125,7 +125,7 @@ function Login() {
 
   return (
     <div className="fullscreen center">
-      <div className='mt-16 logo'>
+      <div className='logo'>
         <img src={showFaceLogo} alt="ShowFace logo" style={{ width: "300px", height: "auto" }}/>
       </div>
       <div className="login-container center mt-12">
