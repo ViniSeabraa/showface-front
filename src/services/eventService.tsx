@@ -10,7 +10,8 @@ interface CreateEventPayload {
     photographer: string,
     photographerLink: string,
     userId: number,
-    userName: string
+    userName: string,
+    file: File | null
 }
 
 interface EditEventPayload {
@@ -27,7 +28,11 @@ export const getEventService = async (payload: GetEventPayload) => {
 };
 
 export const createEventService = async (payload: CreateEventPayload) => {
-    const response = await api.post('/event/new', payload);
+    const response = await api.post('/event/new', payload, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    });
     return response.data; 
 };
 
