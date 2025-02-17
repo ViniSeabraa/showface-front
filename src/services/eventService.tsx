@@ -27,6 +27,11 @@ export const getEventService = async (payload: GetEventPayload) => {
     return response.data; 
 };
 
+export const getEventsByUserIdService = async (userId: string) => {
+    const response = await api.get(`/user/${userId}`); 
+    return response.data;
+};
+
 export const createEventService = async (payload: CreateEventPayload) => {
     const response = await api.post('/event/new', payload, {
         headers: {

@@ -4,14 +4,17 @@ import { useState } from 'react';
 import { useToast } from "../../components/hooks/use-toast";
 import { createEventService } from '../../services/eventService';
 import { AxiosError } from 'axios';
+import { useAuth } from '../../utils/authContext';
 
 function NewEvent() {
+  const { getUserData } = useAuth();
+  const user = getUserData() || { nome: "Usuário Desconhecido", email: "", id:""};
   const [formData, setFormData] = useState({
     name: '',
     photographer: '',
     photographerLink: '',
-    userId: 1,
-    userName: '',
+    userId: user.id,
+    userName: user.name,
     file: null as File | null,
   });
 
