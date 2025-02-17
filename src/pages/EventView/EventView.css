@@ -1,0 +1,216 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .true-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .container {
+    display: flex;
+    align-items: center; /* Garante alinhamento vertical */
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 75%;
+    max-height: 400px;
+    width: 100%;
+    margin: 0px 0px 40px 0px;
+  }
+  
+
+
+  .upload-btn {
+    width: 100px; /* Reduz o tamanho do botão */
+    height: 100px; 
+    background-color: #fff;
+    border: 2px solid #f9c847; /* Borda mais fina */
+    border-radius: 12px; /* Mais arredondado */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    padding: 10px;
+  }
+  
+  .upload-btn:hover {
+    background-color: #f9c847;
+    color: #fff;
+  }
+  
+  .upload-txt {
+    font-size: 14px; /* Fonte menor */
+    color: RGB(249, 200, 71);
+    margin-top: 5px;
+  }
+  
+  .upload-btn img {
+    width: 40px; /* Ícone menor */
+    height: 40px;
+  }
+
+  .find-btn {
+    height:100%;
+
+    flex-grow: 1;
+  
+    background-color: #ffc400;
+    color: #333;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .description {
+    height:100%;
+    font-size: 14px;
+    color: #666;
+    max-width: 200px;
+  }
+
+
+  
+  .contem_tudo {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 75%;
+    width: 100%;
+    margin: 0px 0px 40px 0px;
+
+  }
+
+  .toggle-container{
+    display:flex;
+    gap:20px
+    
+  }
+
+
+
+    .texto_toggle{
+        color:#333;
+        font-size:16px;
+    }
+
+    
+  .download-button {
+
+display: flex;
+align-items: center;
+gap: 0.2rem; /* Espaço entre o ícone e o texto */
+padding: 1.5rem 3rem;
+background: #49454F;
+color: white;
+border: none;
+border-radius: 1rem;
+cursor: pointer;
+transition: background 0.3s;
+font-size: 0.8rem; /* Ajuste o tamanho da fonte */
+
+
+}
+
+.download-button:hover {
+background: #6c6675;
+}
+
+.download-button img {
+ /* Ajusta o tamanho do ícone */
+height: 40px;
+
+}
+    
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 75%;
+    width: 100%;
+    margin: 20px auto;
+  }
+
+  .grid-container img {
+  
+    width: 100%;
+    object-fit: cover;
+    height: 100px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+
+  .pagination a {
+    text-decoration: none;
+    color: black;
+    margin: 0 5px;
+    font-weight: bold;
+  }
+
+  .pagination a:hover {
+    color: blue;
+  }
+
+  .wedding-section {
+position: relative;
+background-image: linear-gradient(to top, white, rgba(0, 0, 0, 0)), url('../recursos/FotoDoCasamento.png'); 
+background-size: cover;
+background-position: center;
+height: 200px;
+width:100%;
+display: flex;
+justify-content: center;
+align-items: center;
+color: white;
+text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+margin: 20px 0;
+}
+
+
+
+.wedding-content {
+display: flex;
+max-width: 75%;
+width: 100%;
+justify-content: space-between;
+}
+
+.wedding-title {
+font-size: 24px;
+font-weight: bold;
+margin: 0;
+color: #333;
+text-align: left;
+}
+
+.wedding-credits {
+font-size: 14px;
+margin: 0;
+color: #333;
+text-align: right;
+}
+
+

@@ -9,6 +9,8 @@ import EditEvent from './pages/EditEvent/EditEvent.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthProvider } from './utils/authContext.tsx';
 import ProtectedRoute from './components/protectedRoute';
+import EventView from './pages/EventView/EventView.tsx';
+
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,15 @@ const router = createBrowserRouter([
           <ProtectedRoute>
             <EditEvent />
           </ProtectedRoute>
+        )
+      },
+      { 
+        path: "EventView", 
+        element: (
+          <ProtectedRoute>
+            <EventView />
+            </ProtectedRoute>
+
         )
       },
     ],
