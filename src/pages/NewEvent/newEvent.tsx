@@ -3,7 +3,7 @@ import AlbumUpload from '../../assets/AlbumUpload.svg';
 import { useState } from 'react';
 import { useToast } from "../../components/hooks/use-toast";
 import { createEventService } from '../../services/eventService';
-
+import { AxiosError } from 'axios';
 
 function NewEvent() {
   const [formData, setFormData] = useState({
@@ -11,7 +11,8 @@ function NewEvent() {
     photographer: '',
     photographerLink: '',
     userId: 1,
-    userName: ''
+    userName: '',
+    file: null as File | null,
   });
 
   const [errors, setErrors] = useState({
@@ -61,28 +62,49 @@ function NewEvent() {
       return;
     }
 
-    // retorno da função não é necessário por enquanto
-    const data = await createEventService({
-      name: formData.name,
-      photographer: formData.photographer, photographerLink: formData.photographerLink,
-      userId: formData.userId, userName: formData.userName,
-    });
+    try {
+      // retorno da função não é necessário por enquanto
+      const data = await createEventService({
+        name: formData.name,
+        photographer: formData.photographer, photographerLink: formData.photographerLink,
+        userId: formData.userId, userName: formData.userName,
+        file: formData.file,
+      });
 
+      toast({
+        variant: "default",
+        title: "Criação de evento Bem-Sucedida",
+        description: "Evento criado!",
+      });
 
-
-    toast({
-      variant: "default",
-      title: "Criação de evento Bem-Sucedida",
-      description: "Evento criado!",
-    });
+      window.location.href = "/myEvents";
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+          if (error.response.status === 400) {
+            toast({
+              variant: "destructive",
+              title: "Evento com este nome já existe",
+              description: "Tente novamente.",
+            });
+          }
+          if (error.response.status == 500) {
+            toast({
+              variant: "destructive",
+              title: "Ocorreu um erro com o servidor",
+              description: "Aguarde e tente novamente mais tarde.",
+            });
+          }
+      }
+    }
 
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
+      setFormData({ ...formData, file: event.target.files?.[0] })
       toast({
         title: "Arquivo Selecionado",
-        description: `Arquivo: ${event.target.files[0].name}`,
+        description: `Arquivo: ${event.target.files?.[0]?.name || ''}`,
       });
     }
   };
