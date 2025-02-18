@@ -33,7 +33,7 @@ const EventView: React.FC = () => {
       }
     };
 
-    if (true) {
+    if (true) {  // atualizar condição
       fetchImages();
     }
   }, []);
