@@ -1,12 +1,47 @@
 import api from './api';
 
-interface EventPayload {
-  id: string;
+
+interface GetEventPayload {
+    id: string;
 }
-  
-export const getEventService = async (payload: EventPayload) => {
-    const response = await api.get('/event', payload);
+
+interface CreateEventPayload {
+    name: string,
+    photographer: string,
+    photographerLink: string,
+    userId: number,
+    userName: string,
+    file: File | null
+}
+
+interface EditEventPayload {
+    id: number,
+    name: string,
+    photographer: string,
+    photographerLink: string
+}
+
+
+export const getEventService = async (payload: GetEventPayload) => {
+    const response = await api.post('/event', payload);
     return response.data; 
 };
 
-//
+export const getEventsByUserIdService = async (userId: string) => {
+    const response = await api.get(`/user/${userId}`); 
+    return response.data;
+};
+
+export const createEventService = async (payload: CreateEventPayload) => {
+    const response = await api.post('/event/new', payload, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    });
+    return response.data; 
+};
+
+export const editEventService = async (payload: EditEventPayload) => {
+    const response = await api.post('/event/edit', payload);
+    return response.data; 
+};

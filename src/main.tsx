@@ -39,9 +39,8 @@ const router = createBrowserRouter([
       { 
         path: "EventView", 
         element: (
-            <ProtectedRoute>
               <EventView/>
-            </ProtectedRoute>
+            
           
         )
       },
