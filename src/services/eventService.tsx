@@ -1,7 +1,7 @@
 import api from './api';
 
 interface EventPayload {
-  id: number;
+  id: string;
 }
   
 export const getEventService = async (payload: EventPayload) => {
