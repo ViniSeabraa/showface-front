@@ -1,18 +1,12 @@
 import './EventView.css';
-
+import UploadShowFace from '../../assets/UploadPhotos.svg';
+import FindPhotosShowFace from '../../assets/FindPhotos.svg';
+import DownloadShowFace from '../../assets/DownloadPhotosEvent.svg';
+import ToggleShowFace from "../../components/toggle/toggle.tsx";
+import React from "react";
 
 import { getEventService } from "../../services/eventService";
 
-import ToggleShowFace from "../../components/toggle/toggle.tsx";
-
-import UploadShowFace from '../../assets/UploadPhotos.svg';
-
-import FindPhotosShowFace from '../../assets/FindPhotos.svg';
-
-import DownloadShowFace from '../../assets/DownloadPhotosEvent.svg';
-
-import React from "react";
-import "./EventView.css";
 
 import { useEffect, useState } from "react";
 
@@ -25,7 +19,7 @@ const EventView: React.FC = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const images: string[] = await getEventService({ id: 1 }); // Supondo que retorna apenas um array de URLs
+        const images: string[] = await getEventService({ id: "1" }); // Supondo que retorna apenas um array de URLs
         setImageList(images);
       } catch (error) {
         console.error("Erro ao buscar imagens:", error);
