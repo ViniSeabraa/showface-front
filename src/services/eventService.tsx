@@ -1,10 +1,5 @@
 import api from './api';
 
-
-interface GetEventPayload {
-    id: string;
-}
-
 interface CreateEventPayload {
     name: string,
     photographer: string,
@@ -21,8 +16,8 @@ interface EditEventPayload {
 }
 
 
-export const getEventService = async (payload: GetEventPayload) => {
-    const response = await api.post('/event', payload);
+export const getEventService = async (id: number) => {
+    const response = await api.get(`/event/${id}`);
     return response.data; 
 };
 
