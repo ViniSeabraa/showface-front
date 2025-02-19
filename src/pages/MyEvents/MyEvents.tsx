@@ -1,41 +1,66 @@
-import LandingPhotos from "../../assets/LandingPhotos.svg";
-import Upload from "../../assets/upload.svg"
-import Share from "../../assets/share.svg"
-import FaceVerification from "../../assets/faceVerification.svg"
+import { useAuth } from '../../utils/authContext';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getEventsByUserIdService } from '../../services/eventService';
+import Arrow from '../../assets/arrow.svg';
+import Copy from '../../assets/copy.svg';
+import Plus from '../../assets/plus.svg';
+import './MyEvents.css';
 
-import "./MyEvents.css"
-import { useNavigate } from "react-router-dom";
-
-function LandingPage() {
-
+export default function MyEvents() {
+  const { getUserData } = useAuth();
+  const user = getUserData() || { nome: "Usuário Desconhecido", email: "", id: "" };
   const navigate = useNavigate();
+  const [eventos, setEventos] = useState([]);
+
+  useEffect(() => {
+    const fetchUserEvents = async () => {
+      if (!user.id) return;
+      try {
+        const events = await getEventsByUserIdService(user.id);
+        setEventos(events.events || []);
+      } catch (error) {
+        console.error("Erro ao buscar eventos", error);
+      }
+    };
+
+    fetchUserEvents();
+  }, [user.id]);
 
   return (
+    <div className="father-container">
+      <div className='top-infos mb-8'>
+        <h1 className="title">Meus eventos</h1>
+        <div className="user-info">
+          <div className="user-name">{user.name}</div>
+          <div>{user.email}</div>
+        </div>
+      </div>
+      <button onClick={() => navigate('/newEvent')} className="button-create mb-8 py-3">
+        <img src={Plus} className="icon" alt="Criar" />
+        Criar novo evento
+      </button>
 
-    <div className="center">
-
-        <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
-            <h1 style={{justifyContent:"left"}} className="title">Meus eventos</h1>
-            <div style={{justifyContent: "right"}}>
-            <p>fábio de lima ferreira papais / flfp@ccin.ufpbr</p>
+      <div className="event-list">
+        {eventos.map((evento) => (
+          <div key={evento.id} className="event-card">
+            <h2 className="event-title">{evento.name}</h2>
+            <div className="event-actions">
+              <a href={`/eventview?id=${evento.id}`} className="event-link mr-10">
+                <img src={Arrow} className="icon" alt="Acessar" />
+                acessar página do evento
+              </a>
+              <button 
+                onClick={() => navigator.clipboard.writeText(window.location.origin + `/eventview?id=${evento.id}`)}
+                className="copy-button"
+              >
+                <img src={Copy} className="icon" alt="Copiar" />
+                copiar link da página
+              </button>
             </div>
-        </div>
-
-
-        <div style={{}}>
-            <button className='button-confirm mt-8 mb-8'>+ Criar Evento</button>
-        </div>
-
-        <div style={{display:"flex", flexDirection:"row", justifyContent: "space-evenly", height: "100px"}}>
-            <img src="https://ps.w.org/tiny-compress-images/assets/icon-256x256.png?rev=1088385"/>
-            <p>porrada no urso</p>
-            <a href="http://#">acessar página do evento</a>
-            <button>copiar link da pagina</button>
-
-        </div>
-
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
-
-export default LandingPage;
