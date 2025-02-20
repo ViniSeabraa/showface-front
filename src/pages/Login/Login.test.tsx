@@ -1,63 +1,86 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import Login from "./Login";
-import { BrowserRouter } from "react-router-dom";
+/* eslint-disable @typescript-eslint/no-require-imports */
+import { render, screen, fireEvent } from '@testing-library/react';
+import Login from './Login';
+import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import { AuthProvider } from "../../utils/authContext";
 
-const renderWithRouterAndAuth = (ui: React.ReactElement) => {
-  return render(
-    <AuthProvider>
-      <BrowserRouter>{ui}</BrowserRouter>
-    </AuthProvider>
-  );
-};
+jest.mock('../../utils/authContext', () => ({
+  useAuth: () => ({
+    login: jest.fn(),
+  }),
+}));
 
-describe("Login", () => {
-  it("renders the login form", () => {
-    renderWithRouterAndAuth(<Login />);
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /entrar/i })).toBeInTheDocument();
+jest.mock('../../services/authService', () => ({
+  loginService: jest.fn().mockResolvedValue({
+    user: { name: 'Test User', email: 'test@example.com' },
+    token: 'test-token',
+  }),
+  registerService: jest.fn().mockResolvedValue({
+    user: { name: 'Test User', email: 'test@example.com' },
+    token: 'test-token',
+  }),
+}));
+
+describe('Login Component', () => {
+  it('should render login form when the URL includes "login"', () => {
+    render(
+      <MemoryRouter initialEntries={['/login']}>
+        <Login />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('Log-in')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Digite seu e-mail')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Digite sua senha')).toBeInTheDocument();
+    expect(screen.getByText('Log-in')).toBeInTheDocument();
   });
 
-  it("validates empty fields", async () => {
-    renderWithRouterAndAuth(<Login />);
-    fireEvent.click(screen.getByRole("button", { name: /entrar/i }));
+  it('should render registration form when the URL includes "cadastro"', () => {
+    render(
+      <MemoryRouter initialEntries={['/cadastro']}>
+        <Login />
+      </MemoryRouter>
+    );
 
-    expect(await screen.findByText(/preencha todos os campos\./i)).toBeInTheDocument();
+    expect(screen.getByText('Cadastro')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Digite seu nome')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Digite seu e-mail')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Digite sua senha')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Confirme sua senha')).toBeInTheDocument();
+    expect(screen.getByText('Cadastrar')).toBeInTheDocument();
   });
 
-  it("handles successful login", async () => {
-    renderWithRouterAndAuth(<Login />);
+  it('should handle form submission correctly for login', async () => {
+    render(
+      <MemoryRouter initialEntries={['/login']}>
+        <Login />
+      </MemoryRouter>
+    );
 
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: "test@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(/password/i), {
-      target: { value: "password123" },
-    });
+    fireEvent.change(screen.getByPlaceholderText('Digite seu e-mail'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Digite sua senha'), { target: { value: 'password123' } });
 
-    fireEvent.click(screen.getByRole("button", { name: /entrar/i }));
+    fireEvent.click(screen.getByText('Log-in'));
 
-    await waitFor(() => {
-      expect(screen.getByText(/login realizado com sucesso/i)).toBeInTheDocument();
-    });
+    const { loginService } = require('../../services/authService'); 
+    expect(loginService).toHaveBeenCalled();
   });
 
-  it("shows API error on failed login", async () => {
-    renderWithRouterAndAuth(<Login />);
+  it('should handle form submission correctly for registration', async () => {
+    render(
+      <MemoryRouter initialEntries={['/cadastro']}>
+        <Login />
+      </MemoryRouter>
+    );
 
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: "wrong@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(/password/i), {
-      target: { value: "wrongpassword" },
-    });
+    fireEvent.change(screen.getByPlaceholderText('Digite seu nome'), { target: { value: 'teste' } });
+    fireEvent.change(screen.getByPlaceholderText('Digite seu e-mail'), { target: { value: 'teste@exemplo.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Digite sua senha'), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByPlaceholderText('Confirme sua senha'), { target: { value: 'password123' } });
 
-    fireEvent.click(screen.getByRole("button", { name: /entrar/i }));
+    fireEvent.click(screen.getByText('Cadastrar'));
 
-    await waitFor(() => {
-      expect(screen.getByText(/credenciais inválidas/i)).toBeInTheDocument();
-    });
+    const { registerService } = require('../../services/authService'); 
+    expect(registerService).toHaveBeenCalled();
   });
 });

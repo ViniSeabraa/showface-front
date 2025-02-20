@@ -8,13 +8,13 @@ import { useAuth } from '../../utils/authContext';
 
 function NewEvent() {
   const { getUserData } = useAuth();
-  const user = getUserData() || { nome: "Usuário Desconhecido", email: "", id:""};
+  const user = getUserData() || { name: "Usuário Desconhecido", email: "", id:""};
   const [formData, setFormData] = useState({
     name: '',
     photographer: '',
     photographerLink: '',
-    userId: user.id,
-    userName: user.name,
+    userId: user.id || '',
+    userName: user.name || 'Usuário Desconhecido',
     file: null as File | null,
   });
 
@@ -66,11 +66,12 @@ function NewEvent() {
     }
 
     try {
-      // retorno da função não é necessário por enquanto
-      const data = await createEventService({
+      await createEventService({
         name: formData.name,
-        photographer: formData.photographer, photographerLink: formData.photographerLink,
-        userId: formData.userId, userName: formData.userName,
+        photographer: formData.photographer, 
+        photographerLink: formData.photographerLink,
+        userId: formData.userId, 
+        userName: formData.userName,
         file: formData.file,
       });
 
@@ -131,7 +132,7 @@ function NewEvent() {
               className={errors.name ? 'input-error' : ''}
             />
 
-            <label>Nome do fotógrafo:</label>
+            <label htmlFor="photographer">Nome do fotógrafo:</label>
             <input
               type="text"
               id='photographer'
@@ -143,7 +144,7 @@ function NewEvent() {
               className={errors.photographer ? 'input-error' : ''}
             />
 
-            <label>Link do fotógrafo:</label>
+            <label htmlFor="photographerLink">Link do fotógrafo:</label>
             <input
               type="url"
               id='photographerLink'
