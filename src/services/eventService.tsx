@@ -9,7 +9,7 @@ interface CreateEventPayload {
     name: string,
     photographer: string,
     photographerLink: string,
-    userId: number,
+    userId: string,
     userName: string,
     file: File | null
 }

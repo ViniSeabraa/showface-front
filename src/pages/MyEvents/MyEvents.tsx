@@ -9,9 +9,10 @@ import './MyEvents.css';
 
 export default function MyEvents() {
   const { getUserData } = useAuth();
-  const user = getUserData() || { nome: "Usuário Desconhecido", email: "", id: "" };
+  const user = getUserData() || { name: "Usuário Desconhecido", email: "", id: "" };
   const navigate = useNavigate();
-  const [eventos, setEventos] = useState([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [eventos, setEventos] = useState<any[]>([]); 
 
   useEffect(() => {
     const fetchUserEvents = async () => {
@@ -48,14 +49,14 @@ export default function MyEvents() {
             <div className="event-actions">
               <a href={`/eventview?id=${evento.id}`} className="event-link mr-10">
                 <img src={Arrow} className="icon" alt="Acessar" />
-                acessar página do evento
+                Acessar página do evento
               </a>
               <button 
                 onClick={() => navigator.clipboard.writeText(window.location.origin + `/eventview?id=${evento.id}`)}
                 className="copy-button"
               >
                 <img src={Copy} className="icon" alt="Copiar" />
-                copiar link da página
+                Copiar link da página
               </button>
             </div>
           </div>
