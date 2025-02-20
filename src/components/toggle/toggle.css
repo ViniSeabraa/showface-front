@@ -1,0 +1,40 @@
+
+
+.toggle-switch {
+
+    width: 50px;
+    height: 25px;
+    background-color: #ccc;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;
+
+    
+  }
+  
+  .toggle-switch.enabled {
+    background-color: #4caf50;
+  }
+  
+  .toggle-ball {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    transition: left 0.3s ease;
+  }
+  
+  .toggle-switch.enabled .toggle-ball {
+
+
+    left: 25px;
+
+
+  }

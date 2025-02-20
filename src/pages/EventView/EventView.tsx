@@ -1,0 +1,264 @@
+import React, { useEffect, useState } from "react";
+import Modal from "react-modal";
+import { useLocation } from "react-router-dom";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
+import "./EventView.css";
+import UploadShowFace from "../../assets/UploadPhotos.svg";
+import FindPhotosShowFace from "../../assets/FindPhotos.svg";
+import DownloadShowFace from "../../assets/DownloadPhotosEvent.svg";
+import ToggleShowFace from "../../components/toggle/toggle.tsx";
+import { getEventService, findService } from "../../services/eventService.tsx";
+import { useToast } from "@/components/hooks/use-toast.ts";
+import { AxiosError } from "axios";
+
+Modal.setAppElement(document.body);
+
+interface EventImage {
+  description: string;
+  eventId: number;
+  id: number;
+  link: string;
+  userId: number;
+}
+
+interface EventData {
+  name: string;
+  photographer: string;
+  photographerLink: string;
+  images: EventImage[];
+}
+
+const EventView: React.FC = () => {
+  const [imageList, setImageList] = useState<EventImage[]>([]);
+
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+  const eventId = useQuery().get("id");
+  const [foundList, setFoundList] = useState<string[]>([]);
+  const [namePerson, setNamePerson] = useState<string>("");
+  const [photographer, setPhotographer] = useState<string>("");
+  const [photographerLink, setPhotographerLink] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selfieFile, setSelfieFile] = useState<File | null>(null);
+  const [toggleEnabled, setToggleEnabled] = useState<boolean>(false);
+
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const events = await getEventService(eventId);
+        setNamePerson(events.name);
+        setPhotographer(events.photographer);
+        setPhotographerLink(events.photographerLink);
+        setImageList(events.images);
+      } catch (error) {
+        console.error("Erro ao buscar imagens:", error);
+      }
+    };
+    fetchImages();
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      const foundImageList = await findService({
+        file: selfieFile,
+        id: String(eventId),
+      });
+      setFoundList(foundImageList);
+
+      toast({
+        variant: "default",
+        title: "Imagens encontradas!",
+        description: "Clique nas imagens para visualizá-las.",
+      });
+
+      setToggleEnabled(true);
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        if (error.response.status === 404) {
+          toast({
+            variant: "destructive",
+            title: "Nenhuma imagem sua foi encontrada :/",
+            description:
+              "Entre em contato com o organizador se achar que isso é um problema.",
+          });
+        }
+        if (error.response.status === 400) {
+          toast({
+            variant: "destructive",
+            title: "Ocorreu um erro com o servidor",
+            description: "Aguarde e tente novamente mais tarde.",
+          });
+        }
+      }
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelfieFile(event.target.files?.[0]);
+      toast({
+        title: "Arquivo Selecionado",
+        description: `Arquivo: ${event.target.files?.[0]?.name || ""}`,
+      });
+    }
+  };
+
+  const downloadImagesAsZip = async () => {
+    if (foundList.length === 0) {
+      toast({
+        variant: "destructive",
+        title: "Nenhuma imagem encontrada!",
+        description: "Por favor, encontre suas fotos antes de baixá-las.",
+      });
+      return;
+    }
+
+    const zip = new JSZip();
+    const folder = zip.folder("fotos");
+
+    if (!folder) return;
+
+    const imagePromises = foundList.map(async (imageUrl, index) => {
+      const fullImageUrl = `http://127.0.0.1:5000/${imageUrl}`;
+      const response = await fetch(fullImageUrl);
+      const blob = await response.blob();
+      folder.file(`image-${index + 1}.jpg`, blob);
+    });
+
+    await Promise.all(imagePromises);
+    const content = await zip.generateAsync({ type: "blob" });
+    saveAs(content, "vc-no-showface.zip");
+
+    toast({
+      title: "Download iniciado!",
+      description: "Suas imagens estão sendo baixadas.",
+    });
+  };
+
+  return (
+    <>
+      <div
+        className="wedding-section"
+        style={{
+          backgroundImage:
+            imageList.length > 0
+              ? `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url(http://127.0.0.1:5000/${imageList[0].link})`
+              : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="wedding-content">
+          <h1 className="wedding-title">{namePerson}</h1>
+          <p className="wedding-credits">
+            criado por João Pereira
+            <br />
+            Fotografado por {photographer}
+          </p>
+        </div>
+      </div>
+
+      <div className="true-container">
+        <div className="container">
+          <label
+            htmlFor="file-input"
+            className="upload-btn"
+            aria-label="Fazer upload da sua foto"
+          >
+            <img src={UploadShowFace} height={500} alt="Upload Icon" />
+            <div className="upload-txt">sua foto</div>
+          </label>
+          <input
+            type="file"
+            id="file-input"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+
+          <button
+            className="find-btn"
+            aria-label="Encontrar suas fotos"
+            onClick={handleSubmit}
+          >
+            <img src={FindPhotosShowFace} alt="Face Icon" className="icon" />
+            encontrar minhas fotos!
+          </button>
+
+          <div className="description">
+            Basta tirar uma selfie e nossa <b>Inteligência Artificial</b> irá
+            buscar todas as fotos em que você aparece!
+          </div>
+        </div>
+
+        <div className="contem_tudo">
+          <div className="toggle-container">
+            <ToggleShowFace
+              enabled={toggleEnabled}
+              onToggle={setToggleEnabled}
+              disabled={!(foundList.length > 0)}
+            />
+            <div className="texto_toggle">
+              Mostrar apenas as fotos em que apareço
+            </div>
+          </div>
+
+          <button
+            className="download-button"
+            onClick={downloadImagesAsZip}
+            aria-label="Baixar imagens"
+          >
+            fazer download das imagens em que apareço
+            <img src={DownloadShowFace} alt="Download Icon" />
+          </button>
+        </div>
+      </div>
+
+      <div className="images">
+        <div className="grid-container">
+          {!toggleEnabled &&
+            imageList.map((img, index) => (
+              <img
+                key={index}
+                src={`http://127.0.0.1:5000/${img.link}`}
+                alt={`Imagem ${index + 1}`}
+                onClick={() =>
+                  setSelectedImage(`http://127.0.0.1:5000/${img.link}`)
+                }
+              />
+            ))}
+          {toggleEnabled &&
+            foundList.map((img, index) => (
+              <img
+                key={index}
+                src={`http://127.0.0.1:5000/${img}`}
+                alt={`Imagem ${index + 1}`}
+                onClick={() => setSelectedImage(`http://127.0.0.1:5000/${img}`)}
+              />
+            ))}
+        </div>
+      </div>
+
+      {/* React Modal for full image view */}
+      <Modal
+        isOpen={!!selectedImage}
+        onRequestClose={() => setSelectedImage(null)}
+        contentLabel="Image Modal"
+        className="react-modal-content"
+        overlayClassName="react-modal-overlay"
+      >
+        <img
+          src={selectedImage}
+          alt="Full-size view"
+          style={{ maxWidth: "80%", maxHeight: "80vh" }}
+        />
+      </Modal>
+    </>
+  );
+};
+
+export default EventView;

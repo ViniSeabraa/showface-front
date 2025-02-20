@@ -1,5 +1,10 @@
 import api from './api';
 
+interface FindPayload {
+    id: number,
+    file: File | null
+}
+
 interface CreateEventPayload {
     name: string,
     photographer: string,
@@ -16,6 +21,14 @@ interface EditEventPayload {
     photographerLink: string
 }
 
+export const findService = async (payload: FindPayload) => {
+    const response = await api.post('/find/', payload, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        }
+    });
+    return response.data;
+};
 
 export const getEventService = async (id: number) => {
     const response = await api.get(`/event/${id}`);

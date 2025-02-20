@@ -1,0 +1,227 @@
+.true-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  align-items: center; /* Garante alinhamento vertical */
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 75%;
+  max-height: 400px;
+  width: 100%;
+  margin: 0px 0px 40px 0px;
+}
+
+.container label {
+  margin: 0;
+}
+
+.upload-btn {
+  width: 100px; /* Reduz o tamanho do botão */
+  height: 100%;
+  background-color: #fff;
+  border: 2px solid #f9c847; /* Borda mais fina */
+  border-radius: 12px; /* Mais arredondado */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  padding: 10px;
+}
+
+.upload-btn:hover {
+  background-color: #f9c847;
+  color: #fff;
+}
+
+.upload-txt {
+  font-size: 14px; /* Fonte menor */
+  color: RGB(249, 200, 71);
+  margin-top: 5px;
+}
+
+.upload-btn img {
+  width: 40px; /* Ícone menor */
+  height: 40px;
+}
+
+.find-btn {
+  height: 100%;
+
+  flex-grow: 1;
+
+  background-color: #ffc400;
+  color: #333;
+  padding: 25px 20px;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.find-txt {
+  font-size: 14px; /* Fonte menor */
+  color: RGB(249, 200, 71);
+  margin-top: 5px;
+}
+
+.find-btn img {
+  width: 40px; /* Ícone menor */
+  height: 40px;
+}
+
+.description {
+  height: 100%;
+  font-size: 13px;
+  color: #666;
+  max-width: 250px;
+}
+
+.contem_tudo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 75%;
+  width: 100%;
+  margin: 0px 0px 40px 0px;
+}
+
+.toggle-container {
+  display: flex;
+  gap: 20px;
+}
+
+.texto_toggle {
+  color: #333;
+  font-size: 16px;
+}
+
+.download-button {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem; /* Espaço entre o ícone e o texto */
+  padding: 1.5rem 3rem;
+  background: #49454f;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 0.8rem; /* Ajuste o tamanho da fonte */
+}
+
+.download-button:hover {
+  background: #6c6675;
+}
+
+.download-button img {
+  /* Ajusta o tamanho do ícone */
+  height: 40px;
+}
+
+.images {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 80px;
+  margin-top: 20px;
+  background-color: #fff;
+
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  max-width: 75%;
+  width: 100%;
+  
+}
+
+.grid-container img {
+  width: 100%;
+  object-fit: cover;
+  height: 200px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.5s;
+}
+
+.grid-container img:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.wedding-section {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 300px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  color: white;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+  margin: 0 0 30px 0;
+  
+}
+
+
+.wedding-content {
+  display: flex;
+  max-width: 75%;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 65px;
+}
+
+.wedding-title {
+  color: #fff;
+  font-size: 48px;
+  font-weight: bold;
+  margin: 0;
+  text-align: left;
+}
+
+.wedding-credits {
+  color: #fff;
+  font-size: 17px;
+  margin: 0;
+  text-align: right;
+}
+
+.react-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.react-modal-content {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background: white;
+  padding: 20px;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow: auto;
+  border-radius: 8px;
+}

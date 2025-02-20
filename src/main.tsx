@@ -7,6 +7,7 @@ import MyEvents from './pages/MyEvents/MyEvents.tsx'
 import LandingPage from './pages/LandingPage/LandingPage.tsx';
 import './index.css';
 import EditEvent from './pages/EditEvent/EditEvent.tsx';
+import EventView from './pages/EventView/EventView.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthProvider } from './utils/authContext.tsx';
 import ProtectedRoute from './components/protectedRoute';
@@ -41,7 +42,13 @@ const router = createBrowserRouter([
             <MyEvents/>
           </ProtectedRoute>
         )
-      }
+      },
+      { 
+        path: "eventView", 
+        element: (
+          <EventView/> 
+        )
+      },
     ],
   },
 ]);
