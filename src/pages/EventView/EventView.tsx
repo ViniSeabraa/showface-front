@@ -37,6 +37,7 @@ const EventView: React.FC = () => {
   };
   const eventId = useQuery().get("id");
   const [foundList, setFoundList] = useState<string[]>([]);
+  const [name, setName] = useState<string>("");
   const [namePerson, setNamePerson] = useState<string>("");
   const [photographer, setPhotographer] = useState<string>("");
   const [photographerLink, setPhotographerLink] = useState<string>("");
@@ -50,7 +51,8 @@ const EventView: React.FC = () => {
     const fetchImages = async () => {
       try {
         const events = await getEventService(eventId);
-        setNamePerson(events.name);
+        setName(events.name);
+        setNamePerson(events.userName);
         setPhotographer(events.photographer);
         setPhotographerLink(events.photographerLink);
         setImageList(events.images);
@@ -67,6 +69,16 @@ const EventView: React.FC = () => {
         file: selfieFile,
         id: String(eventId),
       });
+
+      if (foundImageList.length === 0) {
+        toast({
+          variant: "destructive",
+          title: "Nenhuma imagem encontrada!",
+          description: "Por favor, tente novamente com outra foto.",
+        })
+        return;
+      }
+
       setFoundList(foundImageList);
 
       toast({
@@ -154,9 +166,9 @@ const EventView: React.FC = () => {
         }}
       >
         <div className="wedding-content">
-          <h1 className="wedding-title">{namePerson}</h1>
+          <h1 className="wedding-title">{name}</h1>
           <p className="wedding-credits">
-            criado por João Pereira
+            criado por {namePerson}
             <br />
             Fotografado por {photographer}
           </p>

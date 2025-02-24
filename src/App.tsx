@@ -7,7 +7,7 @@ import "./App.css"
 
 function App() {
 
-  const withHeader = location.pathname !== "/login" && location.pathname !== "/cadastro";
+  const withHeader = location.pathname !== "/logins" && location.pathname !== "/cadastro";
 
 
   return (
