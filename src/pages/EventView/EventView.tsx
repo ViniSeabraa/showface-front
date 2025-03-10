@@ -7,9 +7,9 @@ import "./EventView.css";
 import UploadShowFace from "../../assets/UploadPhotos.svg";
 import FindPhotosShowFace from "../../assets/FindPhotos.svg";
 import DownloadShowFace from "../../assets/DownloadPhotosEvent.svg";
-import ToggleShowFace from "../../components/toggle/toggle.tsx";
-import { getEventService, findService } from "../../services/eventService.tsx";
-import { useToast } from "@/components/hooks/use-toast.ts";
+import ToggleShowFace from "../../components/toggle/toggle";
+import { getEventService, findService } from "../../services/eventService";
+import { useToast } from "../../components/hooks/use-toast";
 import { AxiosError } from "axios";
 
 Modal.setAppElement(document.body);
@@ -35,7 +35,7 @@ const EventView: React.FC = () => {
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
-  const eventId = useQuery().get("id");
+  const eventId = Number(useQuery().get("id")) || 0;
   const [foundList, setFoundList] = useState<string[]>([]);
   const [name, setName] = useState<string>("");
   const [namePerson, setNamePerson] = useState<string>("");
@@ -67,7 +67,7 @@ const EventView: React.FC = () => {
     try {
       const foundImageList = await findService({
         file: selfieFile,
-        id: String(eventId),
+        id: Number(eventId),
       });
 
       if (foundImageList.length === 0) {
@@ -188,6 +188,7 @@ const EventView: React.FC = () => {
           <input
             type="file"
             id="file-input"
+            data-testid="upload-input"
             style={{ display: "none" }}
             onChange={handleFileChange}
           />
@@ -264,7 +265,7 @@ const EventView: React.FC = () => {
         overlayClassName="react-modal-overlay"
       >
         <img
-          src={selectedImage}
+          src={selectedImage || undefined}
           alt="Full-size view"
           style={{ maxWidth: "80%", maxHeight: "80vh" }}
         />
