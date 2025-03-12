@@ -6,6 +6,7 @@ import { saveAs } from "file-saver";
 import "./EventView.css";
 import UploadShowFace from "../../assets/UploadPhotos.svg";
 import FindPhotosShowFace from "../../assets/FindPhotos.svg";
+import ShowFaceLogo from "../../assets/showFaceLogo.svg";
 import DownloadShowFace from "../../assets/DownloadPhotosEvent.svg";
 import ToggleShowFace from "../../components/toggle/toggle.tsx";
 import { getEventService, findService } from "../../services/eventService.tsx";
@@ -44,6 +45,7 @@ const EventView: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selfieFile, setSelfieFile] = useState<File | null>(null);
   const [toggleEnabled, setToggleEnabled] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { toast } = useToast();
 
@@ -64,6 +66,8 @@ const EventView: React.FC = () => {
   }, []);
 
   const handleSubmit = async () => {
+    setLoading(true);
+
     try {
       const foundImageList = await findService({
         file: selfieFile,
@@ -75,7 +79,7 @@ const EventView: React.FC = () => {
           variant: "destructive",
           title: "Nenhuma imagem encontrada!",
           description: "Por favor, tente novamente com outra foto.",
-        })
+        });
         return;
       }
 
@@ -106,6 +110,8 @@ const EventView: React.FC = () => {
           });
         }
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -153,6 +159,10 @@ const EventView: React.FC = () => {
 
   return (
     <>
+      <div className={`loading-overlay ${loading ? "show" : ""}`}>
+        <img src={ShowFaceLogo} className="loading-spinner" alt="Loading" />
+        <p>Procurando suas fotos...</p>
+      </div>
       <div
         className="wedding-section"
         style={{
@@ -190,6 +200,7 @@ const EventView: React.FC = () => {
             id="file-input"
             style={{ display: "none" }}
             onChange={handleFileChange}
+            accept="image/*"
           />
 
           <button
