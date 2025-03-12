@@ -1,11 +1,11 @@
 import './EditEvent.css'
 import editEvent from '../../assets/editEvent.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from "../../components/hooks/use-toast";
-import { editEventService } from '../../services/eventService';
+import { editEventService, getEventService } from '../../services/eventService';
+import { useLocation } from 'react-router-dom';
 
-
-function NewEvent() {
+function EditEvent() {
   const [formData, setFormData] = useState({
     id: 1,
     name: '',
@@ -20,6 +20,27 @@ function NewEvent() {
   });
 
   const { toast } = useToast();
+  const location = useLocation();
+  const eventId = new URLSearchParams(location.search).get("id");
+
+  useEffect(() => {
+    const fetchEventData = async () => {
+      if (!eventId) return;
+      try {
+        const event = await getEventService(Number(eventId));
+        setFormData({
+          id: event.id,
+          name: event.name,
+          photographer: event.photographer,
+          photographerLink: event.photographerLink,
+        });
+      } catch (error) {
+        console.error("Erro ao buscar dados do evento", error);
+      }
+    };
+
+    fetchEventData();
+  }, [eventId]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -46,7 +67,7 @@ function NewEvent() {
     return Object.values(newErrors).some((error) => error);
   };
 
-  const handleSubmit = async(event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (validateFields()) {
@@ -58,33 +79,38 @@ function NewEvent() {
       return;
     }
 
-    // retorno da função não é necessário por enquanto
-    const data = await editEventService({
-      name: formData.name,
-      photographer: formData.photographer, photographerLink: formData.photographerLink,
-      id: formData.id
-    });
+    try {
+      await editEventService({
+        id: formData.id,
+        name: formData.name,
+        photographer: formData.photographer,
+        photographerLink: formData.photographerLink,
+      });
 
+      toast({
+        variant: "default",
+        title: "Edição de evento Bem-Sucedida",
+        description: "Evento editado!",
+      });
 
-
-    toast({
-      variant: "default",
-      title: "Edição de evento Bem-Sucedida",
-      description: "Evento editado!",
-    });
+      window.location.href = "/myEvents";
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao editar evento",
+        description: "Ocorreu um erro ao editar o evento. Tente novamente mais tarde.",
+      });
+    }
   };
 
   return (
     <div className='center'>
       <div>
-
-      <h1 className='title'>Editar evento</h1>    
+        <h1 className='title'>Editar evento</h1>    
 
         <div className='square'>
-
           <form noValidate onSubmit={handleSubmit}>
-
-          <label htmlFor="name">Nome do evento:</label>
+            <label htmlFor="name">Nome do evento:</label>
             <input
               type="text"
               id='name'
@@ -94,9 +120,9 @@ function NewEvent() {
               placeholder="Casamento de João e Maria"
               required
               className={errors.name ? 'input-error' : ''}
-              />
+            />
 
-          <label>Nome do fotógrafo:</label>
+            <label htmlFor="photographer">Nome do fotógrafo:</label>
             <input
               type="text"
               id='photographer'
@@ -106,9 +132,9 @@ function NewEvent() {
               placeholder="Anderson Fotógrafo"
               required
               className={errors.photographer ? 'input-error' : ''}
-              />
+            />
 
-          <label>Link do fotógrafo:</label>
+            <label htmlFor="photographerLink">Link do fotógrafo:</label>
             <input
               type="url"
               id='photographerLink'
@@ -118,24 +144,19 @@ function NewEvent() {
               placeholder="www.andersonfotografia.com"
               required
               className={errors.photographerLink ? 'input-error' : ''}
-              />
+            />
 
-          
-          <p className='mt-8' style={{fontSize: '13px', textAlign: 'center'}}>ainda não é possível editar as fotos de álbuns :(</p>
+            <p className='mt-8' style={{fontSize: '13px', textAlign: 'center'}}>ainda não é possível editar as fotos de álbuns :(</p>
 
-
-          <button className='button-confirm mt-8 mb-8' type="submit" style={{display: 'flex', justifyContent: 'center'}}>
-            <img src={editEvent} alt="" style={{width: '23px'}}/>
-            Editar evento
-          </button>
-
-        </form>
-
+            <button className='button-confirm mt-8 mb-8' type="submit" style={{display: 'flex', justifyContent: 'center'}}>
+              <img src={editEvent} alt="" style={{width: '23px'}}/>
+              Editar evento
+            </button>
+          </form>
         </div> 
-        </div>
-              </div>
-
+      </div>
+    </div>
   );
 }
 
-export default NewEvent;
+export default EditEvent;
