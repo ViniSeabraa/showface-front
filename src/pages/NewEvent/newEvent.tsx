@@ -156,7 +156,7 @@ function NewEvent() {
               className={errors.photographerLink ? 'input-error' : ''}
             />
 
-            <div className='mt-6' id="albumUpload" onClick={() => document.getElementById('file-input')?.click()}>
+            <div className='mt-6 albumUpload' onClick={() => document.getElementById('file-input')?.click()}>
               <img src={AlbumUpload} alt="Album Upload button"/>
               <p style={{fontSize: '13px', textAlign: 'right'}}>Mande todas as fotos do seu álbum em algum arquivo .zip (compactado)</p>
             </div>

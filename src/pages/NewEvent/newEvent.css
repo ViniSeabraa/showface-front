@@ -38,11 +38,11 @@ input {
   background-color: var(--showface-yellow-light);
 }
 
-#albumUpload{
+.albumUpload{
   display: flex;
-  gap: 10px; /* Space between the image and the text */
+  gap: 10px; 
 }
-#albumUpload >*{
+.albumUpload >*{
   width: 50%;
 }
 

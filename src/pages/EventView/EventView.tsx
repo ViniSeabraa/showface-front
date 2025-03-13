@@ -175,15 +175,15 @@ const EventView: React.FC = () => {
         </div>
       </div>
 
-      <div className="true-container">
+      <div className="top-container">
         <div className="container">
           <label
             htmlFor="file-input"
-            className="upload-btn"
+            className="upload-button"
             aria-label="Fazer upload da sua foto"
           >
             <img src={UploadShowFace} height={500} alt="Upload Icon" />
-            <div className="upload-txt">sua foto</div>
+            <div className="upload-text">sua foto</div>
           </label>
           <input
             type="file"
@@ -194,7 +194,7 @@ const EventView: React.FC = () => {
           />
 
           <button
-            className="find-btn"
+            className="find-button"
             aria-label="Encontrar suas fotos"
             onClick={handleSubmit}
           >
@@ -208,14 +208,14 @@ const EventView: React.FC = () => {
           </div>
         </div>
 
-        <div className="contem_tudo">
+        <div className="toggle-download-container">
           <div className="toggle-container">
             <ToggleShowFace
               enabled={toggleEnabled}
               onToggle={setToggleEnabled}
               disabled={!(foundList.length > 0)}
             />
-            <div className="texto_toggle">
+            <div className="toggle-text">
               Mostrar apenas as fotos em que apareço
             </div>
           </div>
@@ -256,7 +256,6 @@ const EventView: React.FC = () => {
         </div>
       </div>
 
-      {/* React Modal for full image view */}
       <Modal
         isOpen={!!selectedImage}
         onRequestClose={() => setSelectedImage(null)}

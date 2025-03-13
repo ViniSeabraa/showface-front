@@ -1,19 +1,19 @@
 import "./toggle.css";
 
 type ToggleSwitchProps = {
-  enabled: boolean; // Controlled state from parent
-  onToggle: (enabled: boolean) => void; // Callback to update parent state
-  disabled?: boolean; // New optional prop to disable the toggle
+  enabled: boolean; 
+  onToggle: (enabled: boolean) => void; 
+  disabled?: boolean; 
 };
 
 export default function ToggleSwitch({
   enabled,
   onToggle,
-  disabled = false, // Default to false
+  disabled = false, 
 }: ToggleSwitchProps) {
   const handleClick = () => {
     if (!disabled) {
-      onToggle(!enabled); // Only toggle if not disabled
+      onToggle(!enabled); 
     }
   };
 
@@ -23,7 +23,7 @@ export default function ToggleSwitch({
         disabled ? "disabled" : ""
       }`}
       onClick={handleClick}
-      style={{ cursor: disabled ? "not-allowed" : "pointer", opacity: disabled ? 0.5 : 1 }} // Visual feedback
+      style={{ cursor: disabled ? "not-allowed" : "pointer", opacity: disabled ? 0.5 : 1 }} 
     >
       <div className="toggle-ball"></div>
     </div>
