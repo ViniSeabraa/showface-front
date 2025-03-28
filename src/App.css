@@ -1,3 +1,9 @@
-.padding-top{
+.padding{
     padding-top: 65px;
+}
+
+@media (max-width: 768px) {
+     padding{
+        padding-bottom: 40px
+     };
 }

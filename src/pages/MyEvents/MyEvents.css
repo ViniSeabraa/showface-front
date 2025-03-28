@@ -3,7 +3,8 @@
 .father-container {
   background-color: white;
   margin-top: 32px;
-  width: 60%;
+  width: 90%;
+  max-width: 800px; 
   margin-left: auto;
   margin-right: auto;
   padding: 24px;
@@ -13,6 +14,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap; 
+  gap: 12px;
 }
 
 .user-info {
@@ -59,11 +62,13 @@
 
 .event-card {
   display: flex;
-  align-items: center;
+  flex-direction: column; 
+  align-items: flex-start;
   background-color: #f7f7f7;
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 12px;
 }
 
 .event-title {
@@ -75,7 +80,8 @@
 
 .event-actions {
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap; 
+  gap: 12px;
 }
 
 .event-link, .copy-button {
@@ -102,4 +108,24 @@
   width: 20px;
   height: auto;
   margin-right: 8px;
+}
+
+@media (max-width: 768px) {
+  .top-infos {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-info {
+    text-align: left;
+  }
+
+  .event-card {
+    padding: 12px;
+  }
+
+  .event-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
 }

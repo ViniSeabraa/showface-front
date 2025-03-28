@@ -7,14 +7,14 @@ import "./App.css"
 
 function App() {
 
-  const withHeader = location.pathname !== "/logins" && location.pathname !== "/cadastro";
+  const withHeader = location.pathname !== "/login" && location.pathname !== "/cadastro";
 
 
   return (
     <div>
       <Toaster/>
       {withHeader && <Header />}
-      <div className={withHeader ? "padding-top" : ""}>
+      <div className={withHeader ? "padding" : ""}>
         <Outlet />
       </div>
       {withHeader && <Footer/>}

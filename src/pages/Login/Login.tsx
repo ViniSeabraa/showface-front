@@ -190,8 +190,9 @@ function Login() {
           )}
 
           <button className='button-confirm mt-8' type="submit">{isLogin ? 'Log-in':'Cadastrar'}</button>
+          <button className='button-redirect mt-4 mb-4' onClick={() => window.location.href = isLogin ? "/cadastro" : "/login"}>{isLogin? "Ainda não tenho uma conta" : "Já tenho uma conta"}</button>
+          
         </form>
-        <button className='button-redirect mt-4 mb-4' onClick={() => window.location.href = isLogin ? "/cadastro" : "/login"}>{isLogin? "Ainda não tenho uma conta" : "Já tenho uma conta"}</button>
       </div>
     </div>
   );
