@@ -28,10 +28,16 @@ interface EventData {
   photographer: string;
   photographerLink: string;
   images: EventImage[];
+  pagination: {
+    page: number;
+    total_pages: number;
+  };
 }
 
 const EventView: React.FC = () => {
   const [imageList, setImageList] = useState<EventImage[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -50,20 +56,28 @@ const EventView: React.FC = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchImages = async (page = 1) => {
       try {
-        const events = await getEventService(eventId);
+        const events = await getEventService(eventId, page);
         setName(events.name);
         setNamePerson(events.userName);
         setPhotographer(events.photographer);
         setPhotographerLink(events.photographerLink);
         setImageList(events.images);
+        setCurrentPage(events.pagination.page);
+        setTotalPages(events.pagination.total_pages);
       } catch (error) {
         console.error("Erro ao buscar imagens:", error);
       }
     };
-    fetchImages();
-  }, []);
+    fetchImages(currentPage);
+  }, [currentPage]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -266,6 +280,29 @@ const EventView: React.FC = () => {
             ))}
         </div>
       </div>
+      {!toggleEnabled &&  (
+        <div className="pagination-container">
+        <button
+          className="pagination-button"
+          id="previous"
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          Anterior
+        </button>
+        <span className="pagination-info">
+          Página {currentPage} de {totalPages}
+        </span>
+        <button
+          className="pagination-button"
+          id="next"
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          Próxima
+        </button>
+      </div>
+      )}
 
       <Modal
         isOpen={!!selectedImage}

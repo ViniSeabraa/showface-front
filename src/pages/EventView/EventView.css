@@ -258,3 +258,26 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.pagination-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 120px;
+  background-color: #fff;
+  gap: 10px;
+}
+
+.pagination-container .pagination-info {
+  padding: 10px 20px;
+}
+
+.pagination-button {
+  padding: 10px 20px;
+  background-color: #f9c847;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}

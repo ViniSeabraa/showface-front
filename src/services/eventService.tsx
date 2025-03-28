@@ -30,8 +30,8 @@ export const findService = async (payload: FindPayload) => {
     return response.data;
 };
 
-export const getEventService = async (id: number) => {
-    const response = await api.get(`/event/${id}`);
+export const getEventService = async (id: number, page: number) => {
+    const response = await api.get(`/event/${id}?page=${page}`);
     return response.data; 
 };
 
