@@ -11,21 +11,16 @@
   justify-content: space-between;
   gap: 20px;
   max-width: 75%;
-  max-height: 400px;
   width: 100%;
   margin: 0px 0px 40px 0px;
 }
 
-.container label {
-  margin: 0;
-}
-
 .upload-button {
-  width: 100px; 
+  width: 100px;
   height: 100%;
   background-color: #fff;
   border: 2px solid #f9c847;
-  border-radius: 12px; 
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,21 +36,19 @@
 }
 
 .upload-text {
-  font-size: 14px; 
+  font-size: 14px;
   color: RGB(249, 200, 71);
   margin-top: 5px;
 }
 
 .upload-button img {
-  width: 40px; 
+  width: 40px;
   height: 40px;
 }
 
 .find-button {
   height: 100%;
-
   flex-grow: 1;
-
   background-color: #ffc400;
   color: #333;
   padding: 25px 20px;
@@ -71,7 +64,7 @@
 }
 
 .find-button img {
-  width: 40px; 
+  width: 40px;
   height: 40px;
 }
 
@@ -104,7 +97,7 @@
 .download-button {
   display: flex;
   align-items: center;
-  gap: 0.2rem; 
+  gap: 0.2rem;
   padding: 1.5rem 3rem;
   background: #49454f;
   color: white;
@@ -112,7 +105,7 @@
   border-radius: 1rem;
   cursor: pointer;
   transition: background 0.3s;
-  font-size: 0.8rem; 
+  font-size: 0.8rem;
 }
 
 .download-button:hover {
@@ -130,7 +123,6 @@
   padding-bottom: 80px;
   margin-top: 20px;
   background-color: #fff;
-
 }
 
 .grid-container {
@@ -139,7 +131,6 @@
   gap: 20px;
   max-width: 75%;
   width: 100%;
-  
 }
 
 .grid-container img {
@@ -167,9 +158,7 @@
   color: white;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
   margin: 0 0 30px 0;
-  
 }
-
 
 .wedding-content {
   display: flex;
@@ -232,7 +221,6 @@
   flex-direction: column;
   font-size: 1.6rem;
   z-index: 9999;
-
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
@@ -280,4 +268,89 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+  }
+
+  .upload-button,
+  .find-button {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .wedding-title {
+    font-size: 36px;
+  }
+
+  .wedding-credits {
+    font-size: 14px;
+  }
+
+  .description {
+    font-size: 12px;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .toggle-download-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .download-button {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .pagination-container {
+    padding-bottom: 40px;
+  }
+
+  .pagination-button {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .images {
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wedding-title {
+    font-size: 28px;
+  }
+
+  .wedding-credits {
+    font-size: 12px;
+  }
+
+  .upload-button img,
+  .find-button img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .toggle-text {
+    font-size: 14px;
+  }
+
+  .download-button {
+    font-size: 0.7rem;
+  }
+
+  .loading-spinner {
+    width: 60px;
+    height: 60px;
+  }
 }

@@ -1,29 +1,10 @@
-@import '../../variables.css';
-
 .first-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
   max-height: 400px;
   overflow: hidden;
-}
-
-.second-section {
-  display: flex;
-  justify-content: space-around;
-  background-color: var(--showface-yellow);
-}
-
-.second-section .text-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 60px 40px;
-}
-
-.underline{
-  text-decoration: underline;
+  flex-wrap: wrap; 
 }
 
 .first-section-text {
@@ -47,6 +28,27 @@
 .first-section-image img {
   width: 100%;
   height: auto;
+}
+
+.second-section {
+  display: flex;
+  justify-content: space-around;
+  background-color: var(--showface-yellow);
+  flex-wrap: wrap; 
+}
+
+.second-section .text-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 40px;
+  flex: 1;
+  max-width: 33%; 
+}
+
+.underline {
+  text-decoration: underline;
 }
 
 .third-section {
@@ -78,7 +80,7 @@
   font-size: 34px;
 }
 
-.bold{
+.bold {
   font-weight: 500;
   color: var(--showface-grey);
 }
@@ -93,7 +95,7 @@
   cursor: pointer;
 }
 
-.black{
+.black {
   color: white;
   background-color: var(--showface-grey);
 }
@@ -104,4 +106,53 @@
 
 .black:hover {
   background-color: lightgrey !important;
+}
+
+@media (max-width: 768px) {
+  .first-section {
+    flex-direction: column; 
+  }
+
+  .first-section-text {
+    padding-left: 0;
+    font-size: 24px; 
+  }
+
+  .first-section-image img {
+    width: 80%; 
+  }
+
+  .second-section .text-icon {
+    padding: 30px 20px;
+    max-width: 90%; 
+  }
+
+  .second-section {
+    flex-direction: column;
+  }
+
+  .third-content {
+    font-size: 24px;
+    padding: 15px 25px;
+  }
+
+  .button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+
+  .black {
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .first-section-text {
+    font-size: 18px; 
+  }
+
+  .third-content {
+    font-size: 20px;
+    padding: 10px 20px;
+  }
 }

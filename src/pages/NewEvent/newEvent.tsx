@@ -1,5 +1,5 @@
 import './newEvent.css';
-import AlbumUpload from '../../assets/AlbumUpload.svg';
+import Upload from '../../assets/UploadPhotos.svg'
 import { useState } from 'react';
 import { useToast } from "../../components/hooks/use-toast";
 import { createEventService } from '../../services/eventService';
@@ -114,11 +114,10 @@ function NewEvent() {
   };
 
   return (
-    <div className='center'>
-      <div>
+    <div className='all'>
         <h1 className='title'>Criar evento</h1>    
 
-        <div className='square'>
+        <div className='container-father'>
           <form noValidate onSubmit={handleSubmit}>
             <label htmlFor="name">Nome do evento:</label>
             <input
@@ -156,10 +155,13 @@ function NewEvent() {
               className={errors.photographerLink ? 'input-error' : ''}
             />
 
-            <div className='mt-6 albumUpload' onClick={() => document.getElementById('file-input')?.click()}>
-              <img src={AlbumUpload} alt="Album Upload button"/>
-              <p style={{fontSize: '13px', textAlign: 'right'}}>Mande todas as fotos do seu álbum em algum arquivo .zip (compactado)</p>
+            <div className="album-upload-container">
+                <button className='albumUpload' onClick={() => document.getElementById('file-input')?.click()}>   
+                    <img src={Upload} alt="Upload icon" /> <span className='small-font'>Seu álbum de fotos</span>
+                </button>
+                <div className="album-text">Mande as fotos do seu álbum em um arquivo .zip (compactado)</div>
             </div>
+
             <input 
               type="file" 
               id="file-input" 
@@ -170,7 +172,6 @@ function NewEvent() {
             <button className='button-confirm mt-8 mb-8' type="submit">+ Criar Evento</button>
           </form>
         </div> 
-      </div>
     </div>
   );
 }
