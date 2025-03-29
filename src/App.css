@@ -3,7 +3,7 @@
 }
 
 @media (max-width: 768px) {
-     padding{
+     .padding{
         padding-bottom: 40px
      };
 }
