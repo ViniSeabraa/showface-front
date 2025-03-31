@@ -1,13 +1,18 @@
 @import '../../variables.css';
 
+.padding {
+  background-color: #fff;
+}
+
 .father-container {
   background-color: white;
   margin-top: 32px;
   width: 90%;
-  max-width: 800px; 
+  max-width: 1000px; 
   margin-left: auto;
   margin-right: auto;
   padding: 24px;
+  margin-bottom: 100px;
 }
 
 .top-infos {
@@ -58,6 +63,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-bottom: 100px;
 }
 
 .event-card {
@@ -98,6 +104,7 @@
 
 .copy-button {
   color: var(--showface-grey);
+  margin-right: 20px;
 }
 
 .event-link:hover, .copy-button:hover {

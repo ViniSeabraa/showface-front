@@ -54,6 +54,7 @@ const EventView: React.FC = () => {
   const [selfieFile, setSelfieFile] = useState<File | null>(null);
   const [toggleEnabled, setToggleEnabled] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isProcessed, setIsProcessed] = useState<boolean>(false);
 
   const { toast } = useToast();
 
@@ -76,6 +77,7 @@ const EventView: React.FC = () => {
         setImageList(events.images);
         setCurrentPage(events.pagination.page);
         setTotalPages(events.pagination.total_pages);
+        setIsProcessed(events.processed);
       } catch (error) {
         console.error("Erro ao buscar imagens:", error);
       }
@@ -280,13 +282,13 @@ const EventView: React.FC = () => {
           />
 
           <button
-            className="find-button"
-            aria-label="Encontrar suas fotos"
+            className={"find-button" + (isProcessed ? "" : " disabled")}
+            aria-label={isProcessed ? "Encontrar suas fotos" : "Este álbum ainda está sendo processado"}
             onClick={handleSubmit}
             disabled={!previewImage}
           >
             <img src={FindPhotosShowFace} alt="Face Icon" className="icon" />
-            encontrar minhas fotos!
+            {isProcessed ? "encontrar suas fotos" : "este álbum ainda está sendo processado"}
           </button>
 
           <div className="description">

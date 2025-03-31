@@ -65,6 +65,11 @@
   cursor: pointer;
 }
 
+.find-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .find-button img {
   width: 40px;
   height: 40px;

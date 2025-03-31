@@ -27,7 +27,7 @@ function EditEvent() {
     const fetchEventData = async () => {
       if (!eventId) return;
       try {
-        const event = await getEventService(Number(eventId));
+        const event = await getEventService(Number(eventId), 1);
         setFormData({
           id: event.id,
           name: event.name,

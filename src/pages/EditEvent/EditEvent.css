@@ -1,11 +1,13 @@
 @import '../../variables.css';
 
 .center {
-    display: flex;
-    flex-direction: column; 
-    align-items: center; 
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  height: 80vh;
+  padding: 16px; /* Add padding for smaller screens */
 }
-
 
 .square {
   display: flex;
@@ -14,7 +16,8 @@
   border: 4px solid var(--showface-yellow);
   border-radius: 8px; 
   padding-inline: 16px;
-  width: 500px;
+  width: 100%; /* Adjust width for responsiveness */
+  max-width: 500px; /* Limit the maximum width */
   min-height: 370px;
 }
 
@@ -37,12 +40,14 @@ input {
   background-color: var(--showface-yellow-light);
 }
 
-#albumUpload{
+#albumUpload {
   display: flex;
   gap: 10px; 
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
-#albumUpload >*{
-  width: 50%;
+
+#albumUpload > * {
+  width: 100%; /* Full width on smaller screens */
 }
 
 .button-confirm {
@@ -67,9 +72,35 @@ input {
   border: 1px solid red;
 }
 
-.title{
+.title {
   font-weight: bold;
   color: var(--showface-grey);
   font-size: 45px;
   font-family: unbounded;
+  text-align: center; /* Center align for smaller screens */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .square {
+    padding-inline: 12px;
+    min-height: auto; /* Adjust height for smaller screens */
+  }
+
+  .title {
+    font-size: 32px; /* Reduce font size for smaller screens */
+  }
+
+  label {
+    font-size: 12px; /* Adjust label font size */
+  }
+
+  input {
+    height: 36px; /* Adjust input height */
+  }
+
+  .button-confirm {
+    font-size: 14px; /* Adjust button font size */
+    padding: 8px 12px; /* Adjust padding */
+  }
 }

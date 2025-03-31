@@ -50,6 +50,6 @@ export const createEventService = async (payload: CreateEventPayload) => {
 };
 
 export const editEventService = async (payload: EditEventPayload) => {
-    const response = await api.post('/event/edit', payload);
+    const response = await api.put('/event/edit', payload);
     return response.data; 
 };
