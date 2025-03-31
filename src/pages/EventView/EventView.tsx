@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useLocation } from "react-router-dom";
@@ -38,6 +39,7 @@ const EventView: React.FC = () => {
   const [imageList, setImageList] = useState<EventImage[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -54,6 +56,14 @@ const EventView: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const { toast } = useToast();
+
+  useEffect(() => {
+    return () => {
+      if (previewImage) {
+        URL.revokeObjectURL(previewImage);
+      }
+    };
+  }, [previewImage]);
 
   useEffect(() => {
     const fetchImages = async (page = 1) => {
@@ -80,6 +90,15 @@ const EventView: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    if (!selfieFile) {
+      toast({
+        variant: "destructive",
+        title: "Nenhuma imagem selecionada!",
+        description: "Por favor, selecione uma foto antes de enviar.",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -131,12 +150,33 @@ const EventView: React.FC = () => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      setSelfieFile(event.target.files?.[0]);
+      const file = event.target.files[0];
+      setSelfieFile(file);
+      
+      // Limpa a URL anterior se existir
+      if (previewImage) {
+        URL.revokeObjectURL(previewImage);
+      }
+      
+      // Cria a URL para pré-visualização
+      const imageUrl = URL.createObjectURL(file);
+      setPreviewImage(imageUrl);
+      
       toast({
         title: "Arquivo Selecionado",
-        description: `Arquivo: ${event.target.files?.[0]?.name || ""}`,
+        description: `Arquivo: ${file.name}`,
       });
     }
+  };
+
+  const clearSelectedImage = () => {
+    if (previewImage) {
+      URL.revokeObjectURL(previewImage);
+    }
+    setPreviewImage(null);
+    setSelfieFile(null);
+    setToggleEnabled(false);
+    setFoundList([]);
   };
 
   const downloadImagesAsZip = async () => {
@@ -201,14 +241,35 @@ const EventView: React.FC = () => {
 
       <div className="top-container">
         <div className="container">
-          <label
-            htmlFor="file-input"
-            className="upload-button"
-            aria-label="Fazer upload da sua foto"
-          >
-            <img src={UploadShowFace} height={500} alt="Upload Icon" />
-            <div className="upload-text">sua foto</div>
-          </label>
+          {!previewImage ? (
+            <label
+              htmlFor="file-input"
+              className="upload-button"
+              aria-label="Fazer upload da sua foto"
+            >
+              <img src={UploadShowFace} height={500} alt="Upload Icon" />
+              <div className="upload-text">procurar foto</div>
+            </label>
+          ) : (
+            <div className="preview-wrapper">
+              <div className="preview-container">
+                <button 
+                  onClick={clearSelectedImage}
+                  className="clear-preview-button"
+                  aria-label="Remover imagem selecionada"
+                >
+                  ×
+                </button>
+                <img 
+                  src={previewImage} 
+                  alt="Pré-visualização" 
+                  className="preview-image"
+                />
+              </div>
+              <div className="image-caption">sua foto</div>
+            </div>
+          )}
+
           <input
             type="file"
             id="file-input"
@@ -222,6 +283,7 @@ const EventView: React.FC = () => {
             className="find-button"
             aria-label="Encontrar suas fotos"
             onClick={handleSubmit}
+            disabled={!previewImage}
           >
             <img src={FindPhotosShowFace} alt="Face Icon" className="icon" />
             encontrar minhas fotos!
@@ -249,6 +311,7 @@ const EventView: React.FC = () => {
             className="download-button"
             onClick={downloadImagesAsZip}
             aria-label="Baixar imagens"
+            disabled={!(foundList.length > 0)}
           >
             fazer download das imagens em que apareço
             <img src={DownloadShowFace} alt="Download Icon" />
